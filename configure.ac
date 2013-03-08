@@ -103,6 +103,13 @@ AC_CHECK_LIB(gssapi_krb5, gss_export_cred,,
              [AC_MSG_ERROR([GSSAPI library does not support gss_export_cred])],
              [$GSSAPI_LIBS])
 
+PKG_CHECK_MODULES([NDR_GSSPROXY], [ndr_gssproxy >= 0.0.1], [have_libndr_gssproxy=1], [have_libndr_gssproxy=])
+if test x$have_libndr_gssproxy = x; then
+    AC_MSG_WARN([Could not find NDR GSSPROXY headers])
+else
+    AC_DEFINE_UNQUOTED(HAVE_NDR_GSSPROXY, 1, [Build with NDR_GSSPROXY debugging])
+fi
+
 AC_CHECK_DECLS([GSS_KRB5_GET_CRED_IMPERSONATOR], [], [],
                [[#include <gssapi/gssapi_krb5.h>]])
 AC_CHECK_DECLS([GSS_KRB5_CRED_NO_CI_FLAGS_X], [],
