@@ -96,10 +96,11 @@ AM_CPPFLAGS += \
 if BUILD_PROXY
     AM_CPPFLAGS += \
     	$(POPT_CFLAGS) \
-	$(INI_CFLAGS)
+	$(INI_CFLAGS) \
+	$(NDR_GSSPROXY_CFLAGS)
 endif
 
-GSS_PROXY_LIBS = $(KRB5_LIBS) $(GSSAPI_LIBS) $(GSSRPC_LIBS)
+GSS_PROXY_LIBS = $(KRB5_LIBS) $(GSSAPI_LIBS) $(GSSRPC_LIBS) $(NDR_GSSPROXY_LIBS)
 
 if BUILD_PROXY
     GSS_PROXY_LIBS += $(POPT_LIBS) $(VERTO_LIBS) $(INI_LIBS) $(SYSTEMD_DAEMON_LIBS)
@@ -180,6 +181,7 @@ gssproxy_SOURCES = \
     $(GP_RPCGEN_OBJ) \
     src/gp_rpc_debug.c \
     src/gp_rpc_process.c \
+    src/gp_rpc_print.c \
     src/gp_conv.c \
     src/gp_export.c \
     src/gp_debug.c \
