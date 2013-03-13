@@ -109,6 +109,19 @@ if test x$have_libndr_gssproxy = x; then
 else
     AC_DEFINE_UNQUOTED(HAVE_NDR_GSSPROXY, 1, [Build with NDR_GSSPROXY debugging])
 fi
+AM_CONDITIONAL([BUILD_NDR_GSSPROXY], [test x$HAVE_NDR_GSSPROXY != x ])
+
+AC_PATH_PROG(PIDL, pidl, failed)
+PKG_CHECK_MODULES([NDR], [ndr >= 0.0.1], [have_libndr=1], [have_libndr=])
+if test x$have_libndr = x; then
+    AC_MSG_WARN([Could not find NDR headers])
+else
+    NDR_GSSPROXY_CFLAGS="`$PKG_CONFIG --cflags ndr`"
+    NDR_GSSPROXY_LIBS="`$PKG_CONFIG --libs ndr`"
+    AC_DEFINE_UNQUOTED(HAVE_NDR, 1, [Build with NDR debugging])
+    AC_SUBST(NDR_GSSPROXY_CFLAGS)
+    AC_SUBST(NDR_GSSPROXY_LIBS)
+fi
 
 AC_CHECK_DECLS([GSS_KRB5_GET_CRED_IMPERSONATOR], [], [],
                [[#include <gssapi/gssapi_krb5.h>]])
