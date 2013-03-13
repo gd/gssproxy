@@ -96,6 +96,7 @@ AM_CPPFLAGS += \
 if BUILD_PROXY
     AM_CPPFLAGS += \
     	$(POPT_CFLAGS) \
+	-Igen_ndr \
 	$(INI_CFLAGS) \
 	$(NDR_GSSPROXY_CFLAGS)
 endif
@@ -116,6 +117,9 @@ endif
 endif
 
 GP_RPCGEN_OBJ = rpcgen/gp_rpc_xdr.c rpcgen/gss_proxy_xdr.c rpcgen/gp_xdr.c
+if BUILD_NDR_GSSPROXY
+    GP_NDR_OBJ = gen_ndr/ndr_gssproxy.c ndr/ndr_gssproxy.c
+endif
 GP_RPCCLI_OBJ = \
     src/client/gpm_display_status.c \
     src/client/gpm_accept_sec_context.c \
@@ -179,6 +183,7 @@ gssproxy_SOURCES = \
     src/gp_workers.c \
     src/gp_creds.c \
     $(GP_RPCGEN_OBJ) \
+    $(GP_NDR_OBJ) \
     src/gp_rpc_debug.c \
     src/gp_rpc_process.c \
     src/gp_rpc_print.c \
